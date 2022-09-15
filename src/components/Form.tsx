@@ -35,34 +35,42 @@ const Form: React.FC = () => {
     <form onSubmit={onSubmit}>
       <div className="flex flex-col  items-center">
         <input
-          className="m-3 border-b-2 border-b-indigo-500 focus:outline-none focus:border-indigo-400 focus:shadow-xl focus:bg-slate-100 hover:bg-slate-100 active:border-b-indigo-400"
+          className="m-3 border-b-2 border-b-indigo-500 focus:outline-none focus:border-indigo-400 focus:shadow-xl focus:bg-slate-100 hover:bg-slate-100 active:border-b-indigo-400 text-slate-800"
           type="text"
           {...register("firstName")}
           placeholder="first name..."
         />
-        <p className=" text-rose-700 bg-rose-100">
-          {errors.firstName?.message}
-        </p>
+        {errors.firstName && (
+          <p className=" text-rose-700 bg-rose-100 p-1">
+            {errors.firstName?.message}
+          </p>
+        )}
       </div>
       <div className="flex flex-col  items-center">
         <input
-          className="m-3 border-b-2 border-b-indigo-500 focus:outline-none focus:border-indigo-400 focus:shadow-xl focus:bg-slate-100 hover:bg-slate-100 active:border-b-indigo-400"
+          className="m-3 border-b-2 border-b-indigo-500 focus:outline-none focus:border-indigo-400 focus:shadow-xl focus:bg-slate-100 hover:bg-slate-100 active:border-b-indigo-400 text-slate-800"
           type="text"
           {...register("email")}
           placeholder="email..."
         />
-        <p className=" text-rose-700 bg-rose-100">{errors.email?.message}</p>
+        {errors.email && (
+          <p className=" text-rose-700 bg-rose-100 p-1">
+            {errors.email?.message}
+          </p>
+        )}
       </div>
       <div className="flex flex-col  items-center">
         <input
-          className="m-3 border-b-2 border-b-indigo-500 focus:outline-none focus:border-indigo-400 focus:shadow-xl focus:bg-slate-100 hover:bg-slate-100 active:border-b-indigo-400"
+          className="m-3 border-b-2 border-b-indigo-500 focus:outline-none focus:border-indigo-400 focus:shadow-xl focus:bg-slate-100 hover:bg-slate-100 active:border-b-indigo-400 text-slate-800"
           type="text"
           {...register("age")}
           placeholder="age..."
         />
-        <p className=" text-rose-700 bg-rose-100 ">
-          {errors.age && "age should be a positive integer"}
-        </p>
+        {errors.age && (
+          <p className=" text-rose-700 bg-rose-100 p-1 ">
+            {errors.age && "age should be a positive integer"}
+          </p>
+        )}
       </div>
       <button
         type="submit"

@@ -5,6 +5,7 @@ import Button from "../components/subcomponents/Button";
 import { RecipeOptions, RecipeAPIResponse } from "../model";
 import buildRecipeApiUrl from "../api/common/buildApiUrl";
 import RecipeScrollBox from "../components/recipeapi/RecipeScrollBox";
+import RecipeSearchFilter from "../components/recipeapi/RecipeSearchFilter";
 
 // TODO need to handle all input options
 // TODO yup validation query cant be empty or contain numbers/symbols
@@ -66,7 +67,7 @@ const RecipeAPI: React.FC = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
+    <div className="w-screen h-screen flex items-center justify-center dark:bg-slate-800 dark:text-white">
       <div className="w-full  px-4 text-center">
         <h1 className="font-bold text-3xl mb-4 hover:cursor-pointer">
           Recipes
@@ -79,6 +80,10 @@ const RecipeAPI: React.FC = () => {
           />
           <Button type="submit" text="Search" />
         </form>
+        <RecipeSearchFilter
+          recipeOptions={recipeOptions}
+          handleRecipeOptions={handleRecipeOptions}
+        />
         {error && <p className=" text-rose-700">there was an error</p>}
         {data ? (
           <>

@@ -14,7 +14,7 @@ const InputField: React.FC<Props> = ({ todo, setTodo, handleAdd }: Props) => {
       }}
     >
       <input
-        className="m-3 border-b-2 border-b-indigo-500 focus:outline-none focus:border-indigo-400 focus:shadow-xl focus:bg-slate-100 hover:bg-slate-100 active:border-b-indigo-400"
+        className="m-3 border-b-2 border-b-indigo-500 focus:outline-none focus:border-indigo-400 focus:shadow-xl focus:bg-slate-100 hover:bg-slate-200 active:border-b-indigo-400 text-slate-800"
         type="input"
         value={todo}
         onChange={(e) => {

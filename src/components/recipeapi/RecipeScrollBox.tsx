@@ -2,8 +2,6 @@ import React from "react";
 import { RecipeAPIResponse } from "../../model";
 import Pagination from "../Pagination";
 
-//TODO style scroll bar
-
 type Props = {
   data: RecipeAPIResponse;
   pages: string[];
@@ -25,19 +23,16 @@ const RecipeScrollBox: React.FC<Props> = ({
 }: Props) => {
   return (
     <div>
-      <div className=" h-96 overflow-y-scroll p-4 grid md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-5 gap-3 justify-center">
+      <div className=" h-96 overflow-y-auto p-4 grid md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-5 gap-3 justify-center">
         {data.hits.map((r) => (
-          <div
-            key={r.recipe.uri}
-            className="group relative transition ease-in-out delay-150"
-          >
+          <div key={r.recipe.uri} className="group relative">
             <img
               src={r.recipe.image}
               alt={`${r.recipe.label}`}
               className="w-60 rounded-lg "
             />
-            <div className="absolute bottom-0 w-60 bg-indigo-200/75 h-fit rounded-b-lg">
-              <p className="text-rightv  ont-semibold p-3 text-lg text-slate-700 group-hover:text-2xl ">
+            <div className="absolute bottom-0 w-60 bg-indigo-200/75 dark:bg-indigo-500/75 h-fit rounded-b-lg">
+              <p className="text-right p-3 text-lg text-slate-700 dark:text-slate-200 group-hover:text-2xl ">
                 {r.recipe.label}
               </p>
             </div>
