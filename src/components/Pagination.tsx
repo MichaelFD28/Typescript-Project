@@ -10,9 +10,7 @@ type PaginationProps = {
   handleBack: () => void;
 };
 
-// TODO set active button
 // TODO minimise at a certain number of pages
-// TODO test handleNext to see if works with random active link, also have it handle the active link
 
 const Pagination: React.FC<PaginationProps> = ({
   pagesArray,

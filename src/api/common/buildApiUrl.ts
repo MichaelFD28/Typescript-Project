@@ -6,8 +6,13 @@ const buildRecipeApiUrl = (recipeOptions: RecipeOptions): string => {
   //if value, add string `&${item}={value}`
   let path: string = config.recipeAPIBaseUrl;
   for (const [key, value] of Object.entries(recipeOptions)) {
+    if (value.length && key !== "diet") {
+      path += `&${key}=${value}`;
+    }
     if (value.length) {
-      path += `&${key}=${JSON.stringify(value)}`;
+      for (let i = 0; i < value.length; i++) {
+        path += `&${key}=${value[i]}`;
+      }
     }
   }
   return path;

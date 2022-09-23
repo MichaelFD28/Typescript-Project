@@ -9,6 +9,8 @@ import RecipeSearchFilter from "../components/recipeapi/RecipeSearchFilter";
 
 // TODO need to handle all input options
 // TODO yup validation query cant be empty or contain numbers/symbols
+// TODO cache data
+// TODO handle open better than currently :(
 // TODO separate this file
 // https://developer.edamam.com/edamam-docs-recipe-api
 
@@ -19,7 +21,7 @@ const fetcher = (path: string): Promise<RecipeAPIResponse> => {
 const RecipeAPI: React.FC = () => {
   const [recipeOptions, setRecipeOptions] = useState<RecipeOptions>({
     q: "",
-    ingr: "",
+    ingr: "1-20",
     diet: [],
     health: [],
     cuisineType: [],
@@ -34,18 +36,28 @@ const RecipeAPI: React.FC = () => {
   const [pageNum, setPageNum] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleRecipeOptions = (e: React.FormEvent<HTMLFormElement>) => {
+  const [filterOpen, setFilterOpen] = useState<boolean>(false);
+  const handleFilter = () => {
+    setFilterOpen(!filterOpen);
+    console.log(filterOpen);
+  };
+
+  const handleRecipeOptions = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     setRecipeOptions({ ...recipeOptions, [target?.id]: target?.value });
   };
   const [apiUrl, setApiUrl] = useState<string>("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setPages((pages) => [buildRecipeApiUrl(recipeOptions)]);
     setApiUrl(buildRecipeApiUrl(recipeOptions));
     setLoading(true);
+    setFilterOpen(false);
   };
+  useEffect(() => {
+    console.log("apiUrl", apiUrl);
+  }, [apiUrl]);
   const { data, error } = useSWR<RecipeAPIResponse>(apiUrl, fetcher);
 
   const handleNext = () => {
@@ -59,6 +71,7 @@ const RecipeAPI: React.FC = () => {
     if (!pages.includes(apiUrl)) {
       setPages((pages) => [...pages, apiUrl]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiUrl]);
 
   const handleBack = () => {
@@ -69,26 +82,33 @@ const RecipeAPI: React.FC = () => {
   return (
     <div className="w-screen h-screen flex items-center justify-center dark:bg-slate-800 dark:text-white">
       <div className="w-full  px-4 text-center">
-        <h1 className="font-bold text-3xl mb-4 hover:cursor-pointer">
-          Recipes
-        </h1>
+        {!data && (
+          <h1 className="font-bold text-3xl mb-4 hover:cursor-pointer">
+            Recipes
+          </h1>
+        )}
         <form onSubmit={(e) => handleSubmit(e)}>
           <InputText
             id="q"
+            type="text"
             onChange={(e) => handleRecipeOptions(e)}
             placeholder="search recipes..."
           />
           <Button type="submit" text="Search" />
+          <RecipeSearchFilter
+            open={filterOpen}
+            handleOpen={handleFilter}
+            recipeOptions={recipeOptions}
+            setRecipeOptions={setRecipeOptions}
+            handleRecipeOptions={handleRecipeOptions}
+          />
         </form>
-        <RecipeSearchFilter
-          recipeOptions={recipeOptions}
-          handleRecipeOptions={handleRecipeOptions}
-        />
         {error && <p className=" text-rose-700">there was an error</p>}
         {data ? (
           <>
             <RecipeScrollBox
               data={data}
+              open={!filterOpen}
               handleNext={handleNext}
               handleBack={handleBack}
               pages={pages}
